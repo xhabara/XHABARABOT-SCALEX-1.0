@@ -32,6 +32,11 @@ let sounds = [],
   sampleSelector,
   selectedSampleFileName;
 
+let soundRecorder;
+let recording;
+let saveButton;
+let isRecording = false;
+
 let scales = {
   Major: [0, 2, 4, 5, 7, 9, 11, 12],
   Minor: [0, 2, 3, 5, 7, 8, 10, 12],
@@ -61,7 +66,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(500, 400);
+  createCanvas(500, 450);
   background(5, 165, 200);
   sampleSelector = createSelect();
   sampleSelector.position(275, 10);
@@ -159,7 +164,7 @@ function setup() {
   tempoSlider.position(225, 55);
 
   textSize(10);
-  text("XHABARABOT SCALEX 1.0", 360, 387);
+  text("XHABARABOT SCALEX 1.0", 360, 430);
   fill(200, 500, 53);
 
   syncCheckbox = createCheckbox("Sync", false);
@@ -184,6 +189,15 @@ function setup() {
   oscVolumeSlider.input(() => {
     osc.amp(oscVolumeSlider.value());
   });
+  
+  soundRecorder = new p5.SoundRecorder();
+soundRecorder.setInput(); // Connect it to all sound objects
+recording = new p5.SoundFile();
+
+saveButton = createButton("Save and Download");
+saveButton.position(220, 350);
+saveButton.mousePressed(toggleRecording);
+
 }
 
 function toggleAutoTempo() {
@@ -454,5 +468,19 @@ function toggleOscillator() {
   } else {
     osc.stop();
     oscButton.html("Oscillator");
+  }
+}
+
+function toggleRecording() {
+  if (!isRecording) {
+    soundRecorder.record(recording);
+    saveButton.html("Stop Recording");
+    isRecording = true;
+  } else {
+    soundRecorder.stop();
+    saveButton.html("Download");
+    saveSound(recording, "XhabarabotScalexMix.wav");
+    isRecording = false;
+    recording = new p5.SoundFile(); // Reset recording
   }
 }
