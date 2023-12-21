@@ -1,3 +1,8 @@
+// Scalex 1.0
+// Created by Rully Shabara 2023
+// Official Website: rullyshabara.id
+
+
 let sounds = [],
   loopButtons = [],
   loopIntervals = [],
@@ -194,11 +199,16 @@ function setup() {
 soundRecorder.setInput(); // Connect it to all sound objects
 recording = new p5.SoundFile();
 
-saveButton = createButton("Save and Download");
+saveButton = createButton("Start Recording");
 saveButton.position(220, 350);
 saveButton.mousePressed(toggleRecording);
+  
+  let refreshButton = createButton('REFRESH');
+  refreshButton.position(50, height + 30); 
+  refreshButton.mousePressed(() => window.location.reload());
 
 }
+
 
 function toggleAutoTempo() {
   if (autoTempoInterval) {
@@ -294,18 +304,9 @@ function switchSample() {
 }
 
 function changeOctave(index) {
-  octaveShift[index] = (octaveShift[index] + 1) % 5; // Cycle through 0, 1, 2, 3, 4 (representing octave shift of 0, -1, -2, +1, +2)
-  let sign =
-    octaveShift[index] === 1
-      ? "-"
-      : octaveShift[index] === 2
-      ? "--"
-      : octaveShift[index] === 3
-      ? "+"
-      : octaveShift[index] === 4
-      ? "++"
-      : "";
-  octaveButtons[index].html("Octave " + sign + " " + (index + 1));
+  octaveShift[index] = (octaveShift[index] + 1) % 5;
+  let sign = ["", "-", "--", "+", "++"][octaveShift[index]];
+  octaveButtons[index].html(`Octave ${sign} ${index + 1}`);
 }
 
 function toggleLoop(index) {
@@ -383,7 +384,7 @@ function syncLoops() {
       oscLoopButton.html("Stop 0");
     }
   } else {
-    // Code to handle unchecking the sync checkbox, if needed
+   
   }
 }
 
@@ -404,17 +405,9 @@ function toggleOscLoop() {
     osc.stop();
     oscLoopButton.html("Auto 0");
   } else {
-    if (!osc.started) {
-      osc.start();
-    }
+    osc.start();
     playRandomOscillatorPitch();
-    if (oscLoopInterval) {
-      clearInterval(oscLoopInterval);
-    }
-    oscLoopInterval = setInterval(
-      () => playRandomOscillatorPitch(),
-      tempoSlider.value()
-    );
+    oscLoopInterval = setInterval(() => playRandomOscillatorPitch(), tempoSlider.value());
     oscLoopButton.html("Stop 0");
   }
 }
@@ -432,6 +425,32 @@ function changeOscOctave() {
       ? "++"
       : "";
   oscOctaveButton.html("Octave " + sign);
+}
+
+
+
+function updateTempo() {
+  let tempo = tempoSlider.value();
+
+  
+  for (let i = 0; i < sounds.length; i++) {
+    if (loopIntervals[i]) {
+      clearInterval(loopIntervals[i]);
+      loopIntervals[i] = setInterval(() => playRandomPitch(i), tempo);
+    }
+  }
+
+  // Update the oscillator interval
+  if (oscLoopInterval) {
+    clearInterval(oscLoopInterval);
+    oscLoopInterval = setInterval(() => playRandomOscillatorPitch(), tempo);
+  }
+
+
+  if (autoTempoCheckbox.checked()) {
+    let newTempo = Math.floor(Math.random() * (maxTempo - minTempo + 1)) + minTempo;
+    tempoSlider.value(newTempo);
+  }
 }
 
 function playRandomOscillatorPitch() {
