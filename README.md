@@ -4,6 +4,7 @@ Xhabarabot SCALEX is a part of Xhabarabot Voice Machines; the prototypes and ske
 
 
 SCALEX 1.0 - Melodic Scale Generator
+
 USER GUIDE
 
 
