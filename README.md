@@ -6,11 +6,11 @@ Xhabarabot SCALEX is a part of Xhabarabot Voice Machines; the prototypes and ske
 SCALEX 1.0 - Melodic Scale Generator
 USER GUIDE
 
-Starting Up
+
 Sample Selection: Choose between 'Basic' and 'Dissonant' samples using the sampleSelector.
 Scale Selection: Pick a musical scale from an extensive list via the scaleSelector.
 
-Interactive Controls
+
 Auto (1-3) Buttons: Initiate automatic playback loops for each sound channel with these buttons.
 This will generate continuous melody based on the selected scale.
 
@@ -34,15 +34,15 @@ Tempo Slider: Adjust the pace of your loops and sequences.
 
 Sync Checkbox: Synchronize all loops for a unified rhythm.
 
-Volume Controls
+
 Sample Volume Slider: Adjust the overall volume of your samples.
 
 Oscillator Volume Slider: Control the loudness of the oscillator separately.
 
-Recording Your Mix
+
 Recording Button: Begin and end recording your session, and save your mix as a WAV file.
 
-Refresh and Xhabarabot Mode
+
 Refresh Button: Easily reset your session. Hit this button when the machine feels heavy.
 
 Xhabarabot Mode Checkbox: Activate an unpredictable, automated tempo mode
